@@ -1,11 +1,25 @@
 const { Pool } = require("pg");
 
+// Check that all necessary environment variables are defined
+if (
+  !process.env.USER ||
+  !process.env.PASSWORD ||
+  !process.env.HOST ||
+  !process.env.PORT ||
+  !process.env.DATABASE ||
+  !process.env.DBPORT
+) {
+  throw new Error(
+    "Missing one or more required environment variables (USER, PASSWORD, HOST, PORT, DATABASE)."
+  );
+}
+
 // All of the following properties should be read from environment variables
 // We're hardcoding them here for simplicity
 module.exports = new Pool({
-  host: "localhost", // or wherever the db is hosted
-  user: "<role_name>",
-  database: "top_users",
-  password: "<role_password>",
-  port: 5432 // The default port
+  connectionString: `postgresql://${encodeURIComponent(
+    process.env.USER
+  )}:${encodeURIComponent(process.env.PASSWORD)}@${process.env.HOST}:${
+    process.env.DBPORT
+  }/${process.env.DATABASE}`,
 });

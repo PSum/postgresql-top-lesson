@@ -1,11 +1,13 @@
-// routes/users.js
-const express = require('express');
-const router = express.Router();
-const { getUsernames, createUsernameGet, createUsernamePost } = require('../db/queries');
+var express = require('express');
+const usersRouter = express.Router();
 
-// Define the routes
-router.get('/usernames', getUsernames);
-router.get('/create-username', createUsernameGet);
-router.post('/create-username', createUsernamePost);
+const usersController = require('../controllers/usersController');
 
-module.exports = router;
+usersRouter.get('/', usersController.usersGet);
+
+usersRouter.get('/new', usersController.newUserGet);
+usersRouter.post('/new', usersController.newUserPost);
+
+usersRouter.get('/delete', usersController.deleteAllGet);
+
+module.exports = usersRouter;
